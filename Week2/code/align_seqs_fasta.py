@@ -38,16 +38,21 @@ with open("../data/seq1.fasta", "r") as first_seq: # read default first sequence
     with open("../data/seq2.fasta", "r") as second_seq: # read default second sequence
         if len(sys.argv) <= 2: # if there is no input argument or only one argument
             print("Not enough input arguments, Running the alignment on default sequences")
+            
             #seq1 is the default sequence which then skip the first line and remove '\n'
             seq1 = ''.join(first_seq.readlines()[1:]).replace('\n','') 
+            
             #seq2 is the default sequence
             seq2 = ''.join(second_seq.readlines()[1:]).replace('\n','')
+            
             #print the first 10 nucleotides/sequence
             print("First sequence: %s ... \n Second sequence: %s ..." % (seq1[0:11], seq2[0:11]) )
         else: # If there are 2 input arguments 
             print("Reading the input files")
+            
             # print the name of the input files
             print("This is a first input sequence: %s \n This is a second input sequence: %s" % (str(sys.argv[1]), (str(sys.argv[2]))))
+            
             ReadInput(sys.argv[1],sys.argv[2]) # run ReadInput function
             seq1 = ''.join(new_lst) # join the sequence together and store it in seq1
             seq2 = ''.join(new_lst2) 
