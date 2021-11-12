@@ -2,7 +2,7 @@
 
 """This script is for aligning the two DNA sequences"""
 
-__appname__ = '[ALIGN SEQS]'
+__appname__ = '[ALIGN SEQS BETTER]'
 __author__ = 'Booming bonobos'
 __version__ = '0.0.1'
 
@@ -85,13 +85,16 @@ def main(argv):
         seq2 = ReadInput("../data/seq2.fasta")
 
         #print the first 10 nucleotides/sequence
-        print("The first sequence is: %s ... \n The second sequence is: %s ..." % (seq1[0:11], seq2[0:11]) )
+        print("The first sequence is: %s ... \n The second sequence is: \
+            %s ..." % (seq1[0:11], seq2[0:11]) )
 
     else: # If there are 2 input arguments 
         print("Reading the input files....")
             
         # print the name of the input files
-        print("This first input sequence is: %s \n This second input sequence is: %s" % (str(sys.argv[1]), (str(sys.argv[2]))))
+        print("This first input sequence is: %s \n \
+            This second input sequence is: %s" % \
+                (str(sys.argv[1]), (str(sys.argv[2]))))
 
         #Read input files and define seq1 and seq2
         seq1, seq2 = ReadInput(sys.argv[1]), ReadInput(sys.argv[2])
