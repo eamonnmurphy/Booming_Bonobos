@@ -7,7 +7,6 @@ __version__= "0.0.1"
 #########################################################################
 ### IMPORT PACKAGES
 import sys
-import pickle
 
 ########################################################################
 ### CALCULATE SEQUENCE LENGTH 
@@ -41,7 +40,7 @@ def calculate_score(s1, s2, l1, l2, startpoint):
             else:                          # if the bases don't match, add a - to the string
                 matched = matched + "-"
 
-    # some formatted output
+    # Printing the different alignments
     print("." * startpoint + matched)           
     print("." * startpoint + s2)
     print(s1)
@@ -63,26 +62,25 @@ def bestscore(s1, s2, l1, l2):
         if z > my_best_score:   ### Finds best output of calculate score
             my_best_align = "." * i + s2 ## Adds correct amount of dots in then sequence to show best alignment
             my_best_score = z
-
     print(my_best_align)
     print(s1)
     print("Best score:", my_best_score)
     return my_best_align, my_best_score
 
 ####################################################################################
-########### MAKE IT A PROGRAMME
+########### MAIN FUNCTION TO MAKE IT A PROGRAMME
 
 def main(argv):
-##### GETTING THE INPUT SEQUENCES ###############
+######### GETTING THE INPUT SEQUENCES ###############
     """ Main function """
     tmp = []
-    try:
-        f1 = open(sys.argv[1]) # Trys to see if user has ran code with file name
+    try: 
+        f1 = open(sys.argv[1]) # If user has ran code with file name, opens that
         for line in f1:
             tmp.append(line)
         f1.close()
 
-        f2 = open(sys.argv[2]) # Trys to see if user has ran code with a 2nd file name
+        f2 = open(sys.argv[2]) # If user has ran code with a 2nd file name, opens that
         for line in f2:
             tmp.append(line)
         f2.close()
