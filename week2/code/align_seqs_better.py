@@ -61,7 +61,7 @@ def find_best_seqs(seqA=seq1, seqB=seq2):
     # now try to find the best match (highest score) for the two sequences
     my_best_align = None
     my_best_score = -1
-    all_best = {} # would be good to use a list rather than a dictionary too - but not massively sure how to do this
+    all_best = {}
 
     for i in range(l1):
         z = calculate_score(s1, s2, l1, l2, i)
@@ -113,7 +113,12 @@ def main(argv):
     pickle_out = open("../results/align_seqs_better_output.pickle", "wb")
     pickle.dump(my_best_scores, pickle_out)
     pickle_out.close()
-    # not sure this is the format we want?
+
+    # also make a text file to have a human-readable format as well
+    with open('../results/align_seqs_better_output.txt','w') as f:
+        for key, value in my_best_scores.items():
+            f.write("%s: %s\n" % (key, value))
+    
 
     return None
 
