@@ -2,32 +2,30 @@
 
 """This script is for aligning the two DNA sequences"""
 
-__appname__ = '[ALIGN SEQS]'
+__appname__ = '[ALIGN SEQS BETTER]'
 __author__ = 'Booming bonobos'
 __version__ = '0.0.1'
 
 ## import
 
 import sys
+import pickle
 
 # Two example sequences to match
-#seq2 = "ATCGCCGGATTACGGG"
-#seq1 = "CAATTCGGAT"
+seq2 = "ATCGCCGGATTACGGG"
+seq1 = "CAATTCGGAT"
 
 ## import and prepare the input sequences
 def ReadInput(x): 
-    """Read the sequences in the inputs provided and merge them into a string"""
     with open(x, "r") as fileinput: 
         temp = fileinput.readlines()[1:] #skip the first line
         temp1 = [i.strip() for i in temp] #remove the new line characters
         seq_input = ''.join(temp1) #merge the sequences into a one string
     return seq_input
 
-
 ## Define a function that computes a score by returning the number of matches starting
 # from arbitrary startpoint (chosen by user)
 def calculate_score(s1, s2, l1, l2, startpoint): # it will run with the startpoint of 0 if not specify
-    """Compute a score of similarity between the 2 sequences"""
     matched = "" # to hold string displaying alignements
     score = 0
     for i in range(l2):
@@ -38,18 +36,10 @@ def calculate_score(s1, s2, l1, l2, startpoint): # it will run with the startpoi
             else:
                 matched = matched + "-"
     # some formatted output
-    print("." * startpoint + matched) # "." * startpoint means how many time "*" is repeated based on the number of startpoint          
-    print("." * startpoint + s2)
-    print(s1)
-    print(score) 
-    print(" ")
 
     return score
 
-## Define a function to find a best sequence alignment
-
-def find_best_seqs(seqA, seqB):
-    """Find the best alignment of the sequences"""
+def find_best_seqs(seqA = seq1, seqB = seq2):
     # Assign the longer sequence s1, and the shorter to s2
     # l1 is length of the longest, l2 that of the shortest
     l1 = len(seqA)
@@ -65,21 +55,27 @@ def find_best_seqs(seqA, seqB):
     #now try to find the best match (highest score) for the two sequences
     my_best_align = None
     my_best_score = -1
- 
+    all_best = {}
+
     for i in range(l1): # Note that you just take the last alignment with the highest score
         z = calculate_score(s1, s2, l1, l2, i)
         if z > my_best_score:
-            my_best_align = "." * i + s2 # think about what this is doing!
-            my_best_score = z 
-    print(my_best_align)
-    print(s1)
-    print("Best score:", my_best_score)
-    print("Done!")
+            all_best = {}
 
-    return my_best_align, my_best_score, s1
+            my_best_align = "." * i + s2 # think about what this is doing!
+            my_best_score = z
+
+            all_best["Align " + str(1)] = [my_best_score, my_best_align]
+        elif z == my_best_score:
+            my_best_align = "." * i + s2 # think about what this is doing!
+            
+            value = len(all_best.keys())
+
+            all_best["Align " + str(value + 1)] = [my_best_score, my_best_align]
+    
+    return(all_best)
 
 def main(argv):
-    """Read in data, find the best alignments, and save these to the results folder"""
     if len(sys.argv) <= 2 : # if there is no input argument or only one argument
 
         print("Not enough input arguments, Running the alignment on default sequences")
@@ -89,31 +85,28 @@ def main(argv):
         seq2 = ReadInput("../data/seq2.fasta")
 
         #print the first 10 nucleotides/sequence
-        print("The first sequence is: %s ... \n The second sequence is: %s ..." % (seq1[0:11], seq2[0:11]) )
+        print("The first sequence is: %s ... \n The second sequence is: \
+            %s ..." % (seq1[0:11], seq2[0:11]) )
 
     else: # If there are 2 input arguments 
         print("Reading the input files....")
             
         # print the name of the input files
-        print("This first input sequence is: %s \n This second input sequence is: %s" % (str(sys.argv[1]), (str(sys.argv[2]))))
+        print("This first input sequence is: %s \n \
+            This second input sequence is: %s" % \
+                (str(sys.argv[1]), (str(sys.argv[2]))))
 
         #Read input files and define seq1 and seq2
         seq1, seq2 = ReadInput(sys.argv[1]), ReadInput(sys.argv[2])
 
-    my_best_align, my_best_score, s1 = find_best_seqs(seq1, seq2)
-
-    ######### OUTPUT
+    my_best_scores = find_best_seqs()
+    
     with open("../results/seq_aligns.txt", "w") as f:
-         f.write(str(my_best_align))
-         f.write(str("\n"))
-         f.write(str(s1))
-         f.write("\nBest score: " + str(my_best_score))
-         f.close()
-         print("Your results can be found in the results directory!")
+        for key, value in my_best_scores.items():
+            f.write("%s: %s\n" % (key, value))
 
     return None
 
 if (__name__ == "__main__"):
     status = main(sys.argv)
     sys.exit(status)
-
