@@ -1,5 +1,5 @@
 #!/bin/bash
-# Author: Emma MacDonald em221@ic.ac.uk
+# Author: Booming Bonobos (github.com/eamonnmurphy/Booming_Bonobos)
 # Script: run_get_TreeHeight.sh
 # Description: tests get_TreeHeight.R and get_TreeHeight.py
 # Arguments: 1 argument
