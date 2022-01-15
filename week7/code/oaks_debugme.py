@@ -38,6 +38,7 @@ def main(argv):
         csvwrite = csv.writer(g)
         for row in taxa:
             if row[0].lower() == "genus":
+                csvwrite.writerow(["Genus", " species"])
                 continue
             print(row)
             print ("The genus is: ") 
