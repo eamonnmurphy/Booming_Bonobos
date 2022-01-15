@@ -1,0 +1,2 @@
+Align 1: [5, 'CAATTCGGAT']
+Align 2: [5, '.......CAATTCGGAT']

@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 
-"""This script aligns two DNA sequences such that they are as similar as possible"""
+"""This script is for aligning the two DNA sequences"""
 
-__appname__ = '[ALIGN SEQS]'
+__appname__ = '[ALIGN SEQS BETTER]'
 __author__ = 'Booming bonobos'
 __version__ = '0.0.1'
 
+## import
 
 import sys
 
 # Two example sequences to match
-#seq2 = "ATCGCCGGATTACGGG"
-#seq1 = "CAATTCGGAT"
+seq2 = "ATCGCCGGATTACGGG"
+seq1 = "CAATTCGGAT"
 
-# import and prepare input sequences
 
+## import and prepare the input sequences
 def ReadInput(x):
     """Read the sequences in the inputs provided and merge them into a string"""
     if len(sys.argv) <= 2:  # if there is no input argument or only one argument
@@ -38,67 +39,72 @@ def ReadInput(x):
             seq1, seq2 = ReadInput(sys.argv[1]), ReadInput(sys.argv[2]) # read the input files and define seq1 and seq2
         return seq1, seq2
 
+
+
 ## Define a function that computes a score by returning the number of matches starting
 # from arbitrary startpoint (chosen by user)
-def calculate_score(s1, s2, l1, l2, startpoint): # it will run with the startpoint of 0 if not specified
-    """Compute a score by returning the number of matches starting from an arbitrary start-point"""
-    matched = "" # to hold string displaying alignments
+def calculate_score(s1, s2, l1, l2, startpoint):  # it will run with the startpoint of 0 if not specified
+    matched = ""  # to hold string displaying alignments
     score = 0
     for i in range(l2):
         if (i + startpoint) < l1:
-            if s1[i + startpoint] == s2[i]: # if the bases match
+            if s1[i + startpoint] == s2[i]:  # if the bases match
                 matched = matched + "*"
                 score = score + 1
             else:
                 matched = matched + "-"
     # some formatted output
-    print("." * startpoint + matched) # "." * startpoint means how many times "*" is repeated based on the number of startpoints
-    print("." * startpoint + s2)
-    print(s1)
-    print(score)
-    print(" ")
 
     return score
 
 
-### Define a function that finds the best alignment
-def best_align(seq1, seq2):
-    """Find the best alignment"""
+def find_best_seqs(seqA=seq1, seqB=seq2):
     # Assign the longer sequence s1, and the shorter to s2
     # l1 is length of the longest, l2 that of the shortest
-    l1 = len(seq1)
-    l2 = len(seq2)
+    l1 = len(seqA)
+    l2 = len(seqB)
     if l1 >= l2:
-        s1 = seq1
-        s2 = seq2
+        s1 = seqA
+        s2 = seqB
     else:
-        s1 = seq2
-        s2 = seq1
+        s1 = seqB
+        s2 = seqA
         l1, l2 = l2, l1  # swap the two lengths
 
     # now try to find the best match (highest score) for the two sequences
     my_best_align = None
     my_best_score = -1
+    all_best = {} # would be good to use a list rather than a dictionary too - but not massively sure how to do this
 
     for i in range(l1):  # Note that you just take the last alignment with the highest score
         z = calculate_score(s1, s2, l1, l2, i)
         if z > my_best_score:
+            all_best = {}
+
             my_best_align = "." * i + s2  # think about what this is doing!
             my_best_score = z
-    my_best_align = my_best_align
+
+            all_best["Align " + str(1)] = [my_best_score, my_best_align]
+        elif z == my_best_score:
+            my_best_align = "." * i + s2  # think about what this is doing!
+
+            value = len(all_best.keys())
+
+            all_best["Align " + str(value + 1)] = [my_best_score, my_best_align]
+
+    return (all_best)
+
 
 def main(argv):
-    """Print results"""
-    print(my_best_align)
-    print(s1)
-    print("Best score:", my_best_score)
-    print("Done!")
+    my_best_scores = find_best_seqs()
+
+    with open("../results/seq_aligns.txt", "w") as f:
+        for key, value in my_best_scores.items():
+            f.write("%s: %s\n" % (key, value))
+
     return None
 
 
 if (__name__ == "__main__"):
     status = main(sys.argv)
     sys.exit(status)
-
-## maybe should just keep the bits I put in the 'best_align' function in the 'main' function?
-
