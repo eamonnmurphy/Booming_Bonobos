@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3i
 
 """This script is for aligning the two DNA sequences"""
 
@@ -9,6 +9,7 @@ __version__ = '0.0.1'
 ## import
 
 import sys
+import pickle
 
 # Two example sequences to match
 seq2 = "ATCGCCGGATTACGGG"
@@ -16,34 +17,19 @@ seq1 = "CAATTCGGAT"
 
 
 ## import and prepare the input sequences
-def ReadInput(x):
+def ReadInput(x): 
     """Read the sequences in the inputs provided and merge them into a string"""
-    if len(sys.argv) <= 2:  # if there is no input argument or only one argument
-
-        print("Not enough input arguments, Running the alignment on default sequences")
-
-        # Read input from default files and define seq1 and seq2
-        seq1 = ReadInput("../data/seq1.fasta")
-        seq2 = ReadInput("../data/seq2.fasta")
-
-        # print the first 10 nucleotides/sequence
-        print("The first sequence is: %s ... \n The second sequence is: %s ..." % (seq1[0:11], seq2[0:11]))
-
-    else: # if there are 2 input arguments provided: read the sequences in them and merge the sequences into a string
-        print("Reading the input files: This first input sequence is: %s \n This second input sequence is: %s" % (
-        str(sys.argv[1]), (str(sys.argv[2]))))
-        with open(x, "r") as fileinput:
-            temp = fileinput.readlines()[1:] #skip the first line
-            temp1 = [i.strip() for i in temp] #remove the new line characters
-            seq_input = ''.join(temp1) #merge the sequences into one string
-            seq1, seq2 = ReadInput(sys.argv[1]), ReadInput(sys.argv[2]) # read the input files and define seq1 and seq2
-        return seq1, seq2
-
+    with open(x, "r") as fileinput: 
+        temp = fileinput.readlines()[1:] #skip the first line
+        temp1 = [i.strip() for i in temp] #remove the new line characters
+        seq_input = ''.join(temp1) #merge the sequences into a one string
+    return seq_input
 
 
 ## Define a function that computes a score by returning the number of matches starting
 # from arbitrary startpoint (chosen by user)
 def calculate_score(s1, s2, l1, l2, startpoint):  # it will run with the startpoint of 0 if not specified
+    """Compute a score of similarity between the 2 sequences"""
     matched = ""  # to hold string displaying alignments
     score = 0
     for i in range(l2):
@@ -59,6 +45,7 @@ def calculate_score(s1, s2, l1, l2, startpoint):  # it will run with the startpo
 
 
 def find_best_seqs(seqA=seq1, seqB=seq2):
+    """Find the best alignment of the sequences"""
     # Assign the longer sequence s1, and the shorter to s2
     # l1 is length of the longest, l2 that of the shortest
     l1 = len(seqA)
@@ -76,7 +63,7 @@ def find_best_seqs(seqA=seq1, seqB=seq2):
     my_best_score = -1
     all_best = {} # would be good to use a list rather than a dictionary too - but not massively sure how to do this
 
-    for i in range(l1):  # Note that you just take the last alignment with the highest score
+    for i in range(l1):
         z = calculate_score(s1, s2, l1, l2, i)
         if z > my_best_score:
             all_best = {}
@@ -96,11 +83,37 @@ def find_best_seqs(seqA=seq1, seqB=seq2):
 
 
 def main(argv):
+    """Read in data, find the best alignments, and save these to the results folder"""
+    if len(sys.argv) <= 2:  # if there is no input argument or only one argument
+
+        print("Not enough input arguments, Running the alignment on default sequences")
+
+        # Read input from default files and define seq1 and seq2
+        seq1 = ReadInput("../data/seq1.fasta")
+        seq2 = ReadInput("../data/seq2.fasta")
+
+        # print the first 10 nucleotides/sequence
+        print("The first sequence is: %s ... \n The second sequence is: \
+            %s ..." % (seq1[0:11], seq2[0:11]))
+
+    else:  # If there are 2 input arguments
+        print("Reading the input files....")
+
+        # print the name of the input files
+        print("This first input sequence is: %s \n \
+            This second input sequence is: %s" % \
+              (str(sys.argv[1]), (str(sys.argv[2]))))
+
+        # Read input files and define seq1 and seq2
+        seq1, seq2 = ReadInput(sys.argv[1]), ReadInput(sys.argv[2])
+
     my_best_scores = find_best_seqs()
 
-    with open("../results/seq_aligns.txt", "w") as f:
-        for key, value in my_best_scores.items():
-            f.write("%s: %s\n" % (key, value))
+    # dump the dictionary 'all_best' into an opened pickle dictionary file
+    pickle_out = open("../results/align_seqs_better_output.pickle", "wb")
+    pickle.dump(my_best_scores, pickle_out)
+    pickle_out.close()
+    # not sure this is the format we want?
 
     return None
 
