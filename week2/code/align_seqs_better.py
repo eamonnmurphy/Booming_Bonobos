@@ -39,7 +39,7 @@ def calculate_score(s1, s2, l1, l2, startpoint): # it will run with the startpoi
 
     return score
 
-def find_best_seqs(seqA = seq1, seqB = seq2):
+def find_best_seqs(seqA, seqB):
     # Assign the longer sequence s1, and the shorter to s2
     # l1 is length of the longest, l2 that of the shortest
     l1 = len(seqA)
@@ -99,7 +99,7 @@ def main(argv):
         #Read input files and define seq1 and seq2
         seq1, seq2 = ReadInput(sys.argv[1]), ReadInput(sys.argv[2])
 
-    my_best_scores = find_best_seqs()
+    my_best_scores = find_best_seqs(seq1, seq2)
     
     with open("../results/seq_aligns.txt", "w") as f:
         for key, value in my_best_scores.items():

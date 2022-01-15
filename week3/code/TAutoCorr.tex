@@ -1,0 +1,55 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{a4wide}
+\usepackage{geometry}
+\addtolength{\topmargin}{-1.5in}
+\newgeometry{top = 0cm, bottom = 1cm}
+
+\title{Is Florida getting warmer?}
+\author{Booming Bonobos - Eamonn, Chalita, Emma, Lizzie and Uva}
+\date{October 2021}
+
+\begin{document}
+
+\maketitle
+
+\thispagestyle{empty}
+
+\section{Introduction}
+By analysing a dataset containing average yearly temperatures in Key West, 
+Florida, we can deduce whether Florida is getting warmer over time. In order to 
+do this, we can calculate the correlation coefficient between the temperatures 
+and the years.
+
+\section{Methods}
+A script was created in R to analyse the dataset. Spearman's correlation 
+coefficent was calculated between the years and the average temperatures. In 
+order to calculate a p-value for the increase in temperatures, permutation testing
+ was used. The order of temperatures was shuffled randomly between years 10,000 
+ times, and the correlation coefficient calculated for each random order. The 
+ p-value would thus be the number of random correlations greater than the base 
+ correlation, divided by 10,000.
+
+\section{Results}
+\begin{center}
+    \includegraphics[scale = 0.4]{../results/temp_year_scatter.png}
+    \includegraphics[scale = 0.4]{../results/coeff_distro.png}
+
+    Figure One: (A) Temperature (C) vs. Year for Florida dataset. Line of best fit
+    added with confidence interval. (B) Distribution of correlation coefficients
+    for randomly permuted orders.
+\end{center}
+
+The correlation coefficent between the temperature and the year came to 0.526.
+10,000 permutation tests were run, randomly shuffling the years. The Spearman's
+correlation coefficent was calculated for each of these random orders. The
+distribution of these is displayed in Figure One (B). None of these correlations 
+were greater than the originally calculated correlation, meaning that the p-value 
+is less than 1/10000 (<0.0001). This indicates that the observed increase in 
+temperature over the century of data is very likely to be a true increase, not 
+due to random chance. This is likely to be an effect of climate change, although
+it could be a more regional weather pattern also. Further analysis would be needed 
+to determine this.
+
+\end{document}
