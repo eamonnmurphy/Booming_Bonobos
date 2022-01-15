@@ -11,7 +11,7 @@ import sys
 ##########################################################
 # function to see if it is an oak
 def is_an_oak(name):
-    """ Returns True if name is starts with 'quercus' """
+    """ Function returns True if name starts with 'quercus' """
     return name.lower().startswith('quercus') ## if this is true, it will return true
 
 # function that checks for a header
