@@ -45,19 +45,5 @@ def main(argv):
             print('FOUND AN OAK!\n')
             csvwrite.writerow([row[0], row[1]])
 
-    # save results with header
-    csvwrite.to_csv("gfg2.csv", header=headerList, index=False)
-
-    # checking stuff
-    if has_header('../data/TestOaksData.csv'):
-        print("true")
-    else:
-        print("false")
-
-    if has_header('../../week3/data/trees.csv'):
-        print("true")
-    else:
-        print("false")
-
 if (__name__ == "__main__"):
     status = main(sys.argv)
