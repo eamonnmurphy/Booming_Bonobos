@@ -47,7 +47,7 @@ def main(argv):
     f = open('../data/TestOaksData.csv','r') # this csv contains 5 oak species names laid out in 2 columns (genus & species)
     # exclude the header row if it exists:
     if f.readline(1).lower() == "genus":
-        f_lines = f.readlines()[1:] # if there is a header row, start reading from the second line
+    f_lines = f.readlines()[1:] # if there is a header row, start reading from the second line
     else:
         f_lines = f.readlines()[0:] # if there is not a header row, start reading from the first line
     g = open('../data/JustOaksData.csv','w') # this csv is empty
