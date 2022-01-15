@@ -8,74 +8,50 @@ rm(list =ls())
 require(ggplot2)
 load("../data/KeyWestAnnualMeanTemperature.RData")
 
-set.seed(1) #make sure results remain the same every time it runs
+set.seed(100)
 
-#Observed the correlation between pairs of years
 
-N <- ats[1:99, 2]
-N_1 <- ats[2:100, 2] #select the successive years
+# Compute the appropriate correlation coefficient between years
+shift_temp <- ats[2:100,2]
+base_cor <- cor(ats[1:99,2], shift_temp)
 
-ObsCor <- cor(N, N_1, method = c("spearman")) # use spearman correlation
+# Repeat this calculation 10000 times by randomly permuting the
+# time series, and then recalculating correlation for each year
+# sequence (use sample function)
+# test_sample <- sample(ats$Year, nrow(ats))
 
-n <- length(ats$Year) #Number of observations in the given sample
-P <- 100000 #Number of permutation samples test to take
-variable <- ats$Year #The variable we will resample from
-
-MatrixSamp <- matrix(0, nrow = n, ncol = P) # Create matrix to store the permutation data
-
-# Create a permutation sample and store in each column of the matrix
-for (i in 1:P){
-  MatrixSamp[,i] <- sample(variable, size = n, replace=FALSE)
+random_year_order <- function(){
+  random_order <- sample(ats$Temp, nrow(ats))
+  new_cor <- cor(random_order[1:99], random_order[2:100])
+  return(new_cor)
 }
 
-# Create an empty vector for storing the calculated correlation coefficient tests in each permutation
-CorCoeff.test <- rep(0, P)
+cor_vec <- c()
 
-# Perform a correlation coefficient test on each column of MatrixSamp between the successive years
-for (i in 1:P){
-  CorCoeff.test[i] <- cor(MatrixSamp[1:99,i], MatrixSamp[2:100,i],method = c("spearman"))
+for(i in 1:10000){
+  cor_vec <- append(cor_vec, random_year_order())
 }
 
-# Calculate the P-value
-# P-value is the probability of how many permutation test > the observed test stat and divide by the total number of permutation test
-P_value <- mean(CorCoeff.test >= ObsCor)
+#cor_vec <- replicate(10000, random_year_order())
 
-paste("The correlation coefficient between the successive years is", round(ObsCor, digits = 3), "with the estimated P-value of", P_value)
+# Calculate what fraction of the correlation coefficients
+# were greater than those of step 1 (approximate p-value)
 
+num <- sum(cor_vec > base_cor)
+p_value <- num/10000
 
-### Visualise the permutation test ###
-data <- as.data.frame(CorCoeff.test) #Convert permutation stat test from vector to a dataframe for ggplot plotting
-
-### Plot the data distribution ###
-Florida <- ggplot(ats, aes(x = Year, y = Temp))+
-  geom_point() +
-  scale_x_continuous(breaks = seq(1900,2000, by = 10))+
-  ylab("Temperature")+
-  ggtitle("Temperature in Florida from 1901 to 2000") +
-  theme_bw()
+# Create images for Latex file
+p <- ggplot(data = ats, aes(Year, Temp)) + geom_point() +
+  labs(y = "Temperature (C)") +
+  geom_smooth(method = "lm", se = TRUE, fullrange = TRUE)
 
 
-### Plot the density graph of the permutation tests ###
-CorPlot <- ggplot(data, aes(x=CorCoeff.test))+
-  geom_density(stat = "density",
-               position = "identity") +
-  xlim(-0.6, 0.6)+
-  geom_vline(xintercept = ObsCor, # Illustrate the observed Correlation coefficient
-             colour = "red", 
-             linetype = "dashed")+
-  annotate(geom = "text", x = 0.22, y = 3,
-           label = "Observed cor = 0.341 \n P-value = 0.00015") +
-  xlab("Correlation coefficient for successive years ") +
-  ylab("Frequency") +
-  ggtitle("Permutation tests for autocorrelation between successive years") +
-  theme_bw() +
-  theme(aspect.ratio = 1)
+png("../results/temp_year_scatter.png")
+print(p)
+dev.off()
 
-CorPlot
 
-### Save the plot into a file ###
-ggsave("../results/DistributionFlorida.pdf", plot = Florida ,
-       width = 14.8, height = 10.5, units = "cm")
-
-ggsave("../results/PermuCorCoeff_TAutoCorr.pdf", plot = CorPlot ,
-       width = 29.7, height = 21, units = "cm")
+png("../results/coeff_distri.png")
+hist(cor_vec, main = NULL, xlab = "Correlation coefficients")
+abline(v = base_cor, col = "red")
+dev.off()
