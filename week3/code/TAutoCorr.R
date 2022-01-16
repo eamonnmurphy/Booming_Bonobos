@@ -38,5 +38,8 @@ hist(correlationshuffle, xlim = c(-0.6, 0.6), xlab = "Correlation Coefficient",
      col = "lightblue", main = "Distribution of Correlation Coefficients from Shuffled Samples")
 abline(v = correlation, col = "red")
 text(0.425, 150, col = "red", labels = paste0("Observed \n Correlation: \n", round(correlation, digits = 5)))
-dev.off()
+
+##### Plot of original Florida data
+pdf("../results/Florida_original.pdf")
+plot(ats, main = "Change in Temperature over time in Florida")
 
