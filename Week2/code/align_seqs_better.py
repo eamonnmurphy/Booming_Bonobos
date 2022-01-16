@@ -12,8 +12,8 @@ import sys
 import pickle
 
 # Two example sequences to match
-seq2 = "ATCGCCGGATTACGGG"
-seq1 = "CAATTCGGAT"
+#seq2 = "ATCGCCGGATTACGGG"
+#seq1 = "CAATTCGGAT"
 
 ## import and prepare the input sequences
 def ReadInput(x): 
@@ -35,11 +35,10 @@ def calculate_score(s1, s2, l1, l2, startpoint): # it will run with the startpoi
                 score = score + 1
             else:
                 matched = matched + "-"
-    # some formatted output
 
-    return score
+    return score, matched
 
-def find_best_seqs(seqA = seq1, seqB = seq2):
+def find_best_seqs(seqA, seqB):
     # Assign the longer sequence s1, and the shorter to s2
     # l1 is length of the longest, l2 that of the shortest
     l1 = len(seqA)
@@ -54,15 +53,15 @@ def find_best_seqs(seqA = seq1, seqB = seq2):
 
     #now try to find the best match (highest score) for the two sequences
     my_best_align = None
-    my_best_score = -1
+    my_best_score = -1 #even if the score is zero, it will be saved.
     all_best = {}
 
     for i in range(l1): # Note that you just take the last alignment with the highest score
-        z = calculate_score(s1, s2, l1, l2, i)
+        z, seqMatch = calculate_score(s1, s2, l1, l2, i)
         if z > my_best_score:
             all_best = {}
 
-            my_best_align = "." * i + s2 # think about what this is doing!
+            my_best_align = "." * i + s2
             my_best_score = z
 
             all_best["Align " + str(1)] = [my_best_score, my_best_align]
@@ -99,7 +98,7 @@ def main(argv):
         #Read input files and define seq1 and seq2
         seq1, seq2 = ReadInput(sys.argv[1]), ReadInput(sys.argv[2])
 
-    my_best_scores = find_best_seqs()
+    my_best_scores = find_best_seqs(seq1, seq2)
     
     with open("../results/seq_aligns.txt", "w") as f:
         for key, value in my_best_scores.items():

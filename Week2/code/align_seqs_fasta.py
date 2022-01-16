@@ -108,7 +108,6 @@ def main(argv):
          f.write(str("\n"))
          f.write(str(s1))
          f.write("\nBest score: " + str(my_best_score))
-         f.close()
          print("Your results can be found in the results directory!")
 
     return None

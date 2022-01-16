@@ -12,8 +12,8 @@ import sys
 import pickle
 
 # Two example sequences to match
-seq2 = "ATCGCCGGATTACGGG"
-seq1 = "CAATTCGGAT"
+#seq2 = "ATCGCCGGATTACGGG"
+#seq1 = "CAATTCGGAT"
 
 
 ## import and prepare the input sequences
@@ -44,7 +44,7 @@ def calculate_score(s1, s2, l1, l2, startpoint):  # it will run with the startpo
     return score
 
 
-def find_best_seqs(seqA=seq1, seqB=seq2):
+def find_best_seqs(seqA, seqB):
     """Find the best alignment of the sequences"""
     # Assign the longer sequence s1, and the shorter to s2
     # l1 is length of the longest, l2 that of the shortest
@@ -107,7 +107,7 @@ def main(argv):
         # Read input files and define seq1 and seq2
         seq1, seq2 = ReadInput(sys.argv[1]), ReadInput(sys.argv[2])
 
-    my_best_scores = find_best_seqs()
+    my_best_scores = find_best_seqs(seq1, seq2)
 
     # dump the dictionary 'all_best' into an opened pickle dictionary file
     pickle_out = open("../results/align_seqs_better_output.pickle", "wb")
