@@ -2,7 +2,7 @@
 ## annual temperature dataset from Key West, Florida, USA
 
 
-# Author : Chalita Chomkatekaew (chalita.chomkatekaew@ic.ac.uk)
+# Author : Booming 
 # Version : 0.0.1
 
 #Load a required package(s)
@@ -77,9 +77,10 @@ data <- as.data.frame(CorCoeff.test)
 Florida <- ggplot(ats, aes(x = Year, y = Temp))+
   geom_point() +
   scale_x_continuous(breaks = seq(1900,2000, by = 10))+
-  ylab("Temperature")+
+  ylab("Temperature (Celsius)")+
   ggtitle("Temperature in Florida from 1901 to 2000") +
-  theme_bw()
+  theme_classic() +
+  theme(aspect.ratio = 1)
 
 
 #Plot the density graph of the permutation tests
@@ -93,12 +94,10 @@ CorPlot <- ggplot(data, aes(x=CorCoeff.test))+
   annotate(geom = "text", x = 0.22, y = 3,
            label = "Observed cor = 0.341 \n P-value = 0.00015") +
   xlab("Correlation coefficient for successive years ") +
-  ylab("Frequency") +
+  ylab("Density") +
   ggtitle("Permutation tests for autocorrelation between successive years ") +
-  theme_bw()+
+  theme_classic()+
   theme(aspect.ratio = 1)
-
-CorPlot
 
 #Save the plot into a file
 
