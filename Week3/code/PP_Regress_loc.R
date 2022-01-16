@@ -26,11 +26,11 @@ MyDF$Location <- as.factor(MyDF$Location)
 
 #Convert the Prey mass in mg to g and create a new prey mass unit column instead
 
-MyDF <- MyDF %>% mutate(Prey.mass = case_when(Prey.mass.unit == "mg" ~ Prey.mass/1000,
+#MyDF <- MyDF %>% mutate(Prey.mass = case_when(Prey.mass.unit == "mg" ~ Prey.mass/1000,
                                               Prey.mass.unit == "g" ~ Prey.mass)) %>%
-  mutate(New.Prey.mass.unit = case_when(Prey.mass.unit == "mg" ~ "g",
+  #mutate(New.Prey.mass.unit = case_when(Prey.mass.unit == "mg" ~ "g",
                                         Prey.mass.unit == "g" ~ "g")) %>%
-  select(-c('Prey.mass.unit'))
+  #select(-c('Prey.mass.unit'))
 
 
 #The relationship between the prey and predator mass in different Predator life styles Linear model regression

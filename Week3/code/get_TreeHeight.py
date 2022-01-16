@@ -25,12 +25,16 @@ import os
 # distance: The distance from base of tree (e.g., metres)
 
 def TreeHeight(degree, distance):
+    """Calculates the height of the tree from its angle of elevation at a given distance"""
     radians = degree * np.pi / 180
     TreeHeight = distance * np.tan(radians)
 
     return TreeHeight
 
 def main(argv):
+
+    """Call the TreeHeight function on the input data if it is of the correct format"""
+
     if len(sys.argv) > 2: #check if input file is more than one
         print("There are too many input files, please select one.")
 
@@ -47,7 +51,7 @@ def main(argv):
         if len(Inputdata.columns) >= 3 and list(Inputdata.columns).index('Distance.m') == 1 and list(Inputdata.columns).index('Angle.degrees') == 2:
             #Check if the input file has at least 3 columns with the right format
 
-            print("Correct the data format")
+            print("Correct the data format. Proceed to tree height calculation")
 
             data = Inputdata
 
@@ -60,7 +64,7 @@ def main(argv):
 
             print("Done!")
         else: #If data is not in the right format, print this
-            print("Not enough data to calculate the tree height. Please check the file")
+            print("The data file is not in the correct format. Please ensure the file has at least three columns with distance and degree stored in the second and third column respectively.")
 
     else: #If run the script by itself - use the default data
         print("Running the script with the default data")
