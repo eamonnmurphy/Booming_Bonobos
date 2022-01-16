@@ -10,6 +10,10 @@ require(plyr)
 #dlply applies function to groups of data frame -> makes list
 #ldply -> takes list, makes data frame
 
+# convert mg values to g
+mydata$Prey.mass[which(mydata$Prey.mass.unit == "mg")] <-
+  mydata$Prey.mass[which(mydata$Prey.mass.unit == "mg")] / 1000
+
 # stores linear regressions for each feeding interaction, location and predator lifestage in model 1
 lmfunction <- function(mydata){
   summary(lm(Prey.mass ~ Predator.mass, data = mydata))
@@ -23,6 +27,7 @@ listfunction <- function(m){
   r2 <- m$r.squared
   pvalue <- m$coefficients[8]
   data.frame(slope, intercept, r2, pvalue)
+
 }
 output <- ldply(model1, listfunction)
 
