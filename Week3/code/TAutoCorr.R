@@ -2,7 +2,7 @@
 ## annual temperature dataset from Key West, Florida, USA
 
 
-# Author : Booming 
+# Author : Booming Bonobos
 # Version : 0.0.1
 
 #Load a required package(s)
