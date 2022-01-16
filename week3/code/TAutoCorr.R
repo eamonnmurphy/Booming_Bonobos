@@ -7,7 +7,7 @@
 ## Values are not independent (so no standard correlation p-value)
 ## 
 
-equire(ggplot2)
+require(ggplot2)
 
 # Load the dataset
 rm(list =ls())
@@ -97,8 +97,6 @@ CorPlot <- ggplot(data, aes(x=CorCoeff.test))+
   ggtitle("Permutation tests for autocorrelation between successive years ") +
   theme_bw()+
   theme(aspect.ratio = 1)
-
-CorPlot
 
 #Save the plot into a file
 
