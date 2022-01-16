@@ -1,0 +1,61 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[a4paper, total={7in, 12in}]{geometry}
+
+
+\usepackage{biblatex}
+
+\usepackage{graphicx}
+\graphicspath{ {../results/} }
+
+\addbibresource{Florida_biblio.bib}
+
+\title{\textbf{Is Florida getting warmer?\vspace{-0.5em}}}
+\author{Lizzie Bru // eab21@ic.ac.uk // October 2021}
+\predate{}
+\postdate{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction \vspace{-0.5em}}
+
+    Florida is home to over 20 million people and is one of the most biodiverse states in the United States \cite{usda}. It is also likely to face particularly significant impacts from climate change, in part due to its low topographic relief and high inter-annual variability of precipitation. It is therefore important to understand and quantify the extent of the nature and impacts of climate change in Florida to facilitate appropriate mitigating and adaptive measures. While some historical data sets indicate increasing temperatures and decreasing precipitation \cite{irizarry2013historical}, other studies have found no such trends \cite{obeysekera2011climate}. This short study uses an annual temperature dataset from Key West in Florida for the twentieth century to examine whether annual temperature changed significantly over the years throughout the twentieth century. \vspace{-1em}
+
+\section{Methods \vspace{-0.5em}}
+
+Using a permutation test of correlation coefficients, I assess whether the correlation between mean annual temperature and year differs significantly from what would be expected from a random dataset. I firstly calculate the correlation coefficient for the test data, then reshuffle the temperature data 10,000 times, calculating the correlation coefficient between temperature and year each time. I then assess how likely the test coefficient is to be drawn from this null distribution by calculating what fraction of the random null correlation coefficients were greater than the observed test coefficient. \vspace{-1em}
+
+\section{Results \vspace{-0.5em}}
+
+    Mean annual temperature significantly increased over the years throughout the twentieth century in Key West, Florida (observed test data correlation coefficient = 0.533, permutation test P = 0.00) (Figure 1). \vspace{-0.5em}
+
+    \begin{figure}[htbp]
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[scale=0.4]{Florida_scatter_plot.pdf}
+        \caption{Annual temperature in Key West, Florida, \newline from 1901 to 2000.}
+        %\label{fig:Prob1:MEA}
+        %\captionof{figure}{A figure}
+        \label{fig.test1}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[scale=0.4]{Florida_temp_null_distr.pdf}
+        \caption{The null distribution of correlation coefficients for the temperature-year correlation in Key West, Florida. The blue dashed line represents the test correlation coefficient.}
+        \label{fig:test2}
+    \end{minipage}
+    \end{figure}\vspace{-1.5em}
+
+\section{Discussion \vspace{-0.5em}}
+
+    This observed increased in mean annual temperature over the twentieth century in Florida indicates some of the impacts of climate change. This result should be used to urge governments to take more action to slow climate change, to devise more adaptive measures to mitigate its negative impacts, and to combine with other data to forecast future temperature changes. With increasing availability of these long-term datasets, there is much scope for improving our ability to understand, predict, and mitigate climate change. \vspace{-1em}
+
+\printbibliography
+
+
+\end{document}

@@ -39,7 +39,6 @@ def calculate_score(s1, s2, l1, l2, startpoint):  # it will run with the startpo
                 score = score + 1
             else:
                 matched = matched + "-"
-    # some formatted output
 
     return score
 
@@ -68,12 +67,12 @@ def find_best_seqs(seqA=seq1, seqB=seq2):
         if z > my_best_score:
             all_best = {}
 
-            my_best_align = "." * i + s2  # think about what this is doing!
+            my_best_align = "." * i + s2
             my_best_score = z
 
             all_best["Align " + str(1)] = [my_best_score, my_best_align]
         elif z == my_best_score:
-            my_best_align = "." * i + s2  # think about what this is doing!
+            my_best_align = "." * i + s2
 
             value = len(all_best.keys())
 
@@ -118,7 +117,6 @@ def main(argv):
     with open('../results/align_seqs_better_output.txt','w') as f:
         for key, value in my_best_scores.items():
             f.write("%s: %s\n" % (key, value))
-    
 
     return None
 
