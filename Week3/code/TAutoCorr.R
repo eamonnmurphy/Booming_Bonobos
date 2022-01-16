@@ -33,7 +33,7 @@ P <- 100000
 
 #The variable we will resample from
 
-variable <- ats$Year
+variable <- ats$Temp
 
 #Martrix to store the permutation data
 
@@ -78,9 +78,9 @@ Florida <- ggplot(ats, aes(x = Year, y = Temp))+
   geom_point() +
   scale_x_continuous(breaks = seq(1900,2000, by = 10))+
   ylab("Temperature (Celsius)")+
-  ggtitle("Temperature in Florida from 1901 to 2000") +
-  theme_classic() +
-  theme(aspect.ratio = 1)
+  theme_bw() +
+  theme(aspect.ratio = 1,
+        panel.grid = element_blank())
 
 
 #Plot the density graph of the permutation tests
@@ -89,22 +89,23 @@ CorPlot <- ggplot(data, aes(x=CorCoeff.test))+
                position = "identity") +
   xlim(-0.6, 0.6)+
   geom_vline(xintercept = ObsCor, #Illustrate the observed Correlation coefficient
-             colour = "red", 
+             colour = "blue", 
              linetype = "dashed")+
-  annotate(geom = "text", x = 0.22, y = 3,
-           label = "Observed cor = 0.341 \n P-value = 0.00015") +
+  annotate(geom = "text", x = 0.5, y = 3,
+           label = "Observed cor = 0.341 \n P-value = 0.00025",
+           size = 2) +
   xlab("Correlation coefficient for successive years ") +
   ylab("Density") +
-  ggtitle("Permutation tests for autocorrelation between successive years ") +
-  theme_classic()+
-  theme(aspect.ratio = 1)
+  theme_bw()+
+  theme(aspect.ratio = 1,
+        panel.grid = element_blank())
 
 #Save the plot into a file
 
-ggsave("../results/DistributionFlorida.pdf", plot = Florida ,
-       width = 14.8, height = 10.5, units = "cm")
+ggsave("../results/DistributionFlorida.png", plot = Florida ,
+       width = 10, height = 10, units = "cm")
 
-ggsave("../results/PermuCorCoeff_TAutoCorr.pdf", plot = CorPlot ,
-       width = 29.7, height = 21, units = "cm")
+ggsave("../results/PermuCorCoeff_TAutoCorr.png", plot = CorPlot ,
+       width = 10, height = 10, units = "cm")
 
  
