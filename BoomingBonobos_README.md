@@ -35,7 +35,7 @@ A UNIX based Operating System is needed to run the projects. Linux and Mac OS ar
 This project contains three folders (week2, week3, week7).
 Within each folder there are four sub-folders: code, data, results, sandbox.
 
-Code stores all the codes written for groupwork practicals. Data stores all the data needed to run the scripts stored in code. Results store the output of coding scripts. Sandbox is used for experimental purposes and is left empty.
+Code stores all the codes written for groupwork practicals. Data stores all the data needed to run the scripts stored in code. Results store the output of coding scripts.
 
 ##### Files in folders:
 ###### Week2:
@@ -46,11 +46,8 @@ Code stores all the codes written for groupwork practicals. Data stores all the 
     data:
           407228326.fasta
           407228412.fasta
-          Exampleseq.csv
           seq1.fasta
           seq2.fasta
-          testseq1.fasta
-          testseq2.fasta
 
 
 ###### Week3:
