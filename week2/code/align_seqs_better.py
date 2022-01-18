@@ -93,21 +93,23 @@ def main(argv):
         seq2 = ReadInput("../data/seq2.fasta")
 
         # print the first 10 nucleotides/sequence
-        print("The first sequence is: %s ... \n The second sequence is: \
-            %s ..." % (seq1[0:11], seq2[0:11]))
+        print("The first sequence is: %s... \nThe second sequence is: %s...\n" % (seq1[0:11], seq2[0:11]))
 
     else:  # If there are 2 input arguments
         print("Reading the input files....")
 
         # print the name of the input files
-        print("This first input sequence is: %s \n \
-            This second input sequence is: %s" % \
+        print("The first input sequence is: %s \nThe second input sequence is: %s\n" % \
               (str(sys.argv[1]), (str(sys.argv[2]))))
 
         # Read input files and define seq1 and seq2
         seq1, seq2 = ReadInput(sys.argv[1]), ReadInput(sys.argv[2])
 
     my_best_scores = find_best_seqs(seq1, seq2)
+
+    print("Outputting best scores and alignments below.")
+    for key, value in my_best_scores.items():
+        print(key, ": ", value[0],", ", value[1], sep = "")
 
     # dump the dictionary 'all_best' into an opened pickle dictionary file
     pickle_out = open("../results/align_seqs_better_output.pickle", "wb")
@@ -119,6 +121,8 @@ def main(argv):
     with open('../results/align_seqs_better_output.txt','w') as f:
         for key, value in my_best_scores.items():
             f.write("%s: %s\n" % (key, value))
+
+    print("Done! Results are available in results directory, in .txt and pickle format.")
 
     return None
 

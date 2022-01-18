@@ -2,8 +2,8 @@
 """Reads an input file of tree names and outputs the oaks to a csv.
 Robust to slight typos and misspellings."""
 
-__author__ = 'Eamonn Murphy (eamonn.murphy21@imperial.ac.uk)'
-__version__ = '0.0.1'
+__author__ = "Booming Bonobos"
+__version__ = "0.0.1"
 
 import csv
 import sys
