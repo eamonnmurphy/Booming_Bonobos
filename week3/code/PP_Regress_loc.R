@@ -1,80 +1,45 @@
-###############
-# Write regression results to csv
-# Analysis must be subsetted by Predator.lifestage and location
-# 
-# Calculate regression results 
-# and save to csv delimited table in results directory
-# (Init new dataframe and then write.csv() or write.table())
-# 
-# Linear regression on subsets of the data corresponding to
-# Feeding Type x Predator Life stage x Location combination
-# 
-# Regression results should include: regression slope, regression
-# intercept, R**2, F-statistic, p-value
-# 
-# Use dplyr and ggplot
+############################## Regression Practical #############################
 
-require(dplyr)
-require(tidyverse)
-require(ggplot2)
-require(broom)
+# load the data
+mydata <- read.csv("../data/EcolArchives-E089-51-D1.csv")
 
-rm(list = ls())
+# load package
+require(plyr)
 
-# Read data and look at feeding interaction data
-MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
-altered_df <- MyDF %>% subset(select = 
-                                c(Predator.mass, Prey.mass, 
-                                  Type.of.feeding.interaction, 
-                                  Predator.lifestage, Location))
-altered_df$Type.of.feeding.interaction <- factor(altered_df$Type.of.feeding.interaction)
-altered_df$Predator.lifestage <- factor(altered_df$Predator.lifestage)
-altered_df$Location <- factor(altered_df$Location)
+# Notes to self:
+#dlply applies function to groups of data frame -> makes list
+#ldply -> takes list, makes data frame
 
-# First, seperate data by feeding interaction.
-# Then, colour data points by predator lifestage
+# convert mg values to g
+mydata$Prey.mass[which(mydata$Prey.mass.unit == "mg")] <-
+  mydata$Prey.mass[which(mydata$Prey.mass.unit == "mg")] / 1000
 
-# Calculate regression results
-regr_df <- data.frame(matrix(ncol = 5, nrow = 0))
-names <- c("slope", "intercept", "r_squared", "F_stat", "p_value")
-colnames(regr_df) <- names
-rows <- c()
-
-for (type in unique(altered_df$Type.of.feeding.interaction)) {
-  # browser()
-  for (stage in unique(altered_df$Predator.lifestage)) {
-    for (place in unique(altered_df$Location)) {
-        quick_df <- altered_df %>% filter(
-          Predator.lifestage == stage, Type.of.feeding.interaction == type,
-          Location == place
-        )
-        if (all(is.na(quick_df$Predator.mass))) {
-          next
-        }
-        else if (all(is.na(quick_df$Predator.mass))) {
-          next
-        }
-        else {
-          name <- paste(type, stage, place, sep = ".")
-          append(rows, name)
-          new_lm <- lm(Predator.mass ~ Prey.mass, data = quick_df)
-          summary <- summary(new_lm)
-          # print(summary)
-          # print(summary$fstatistic)
-          tidied <- tidy(new_lm)
-          # print(tidied)
-          glanced <- glance(new_lm)
-          # print(glanced)
-          try(regr_df[nrow(regr_df)+1,] <- c(
-             tidied[2,2], tidied[1,2], glanced[1,1], summary$fstatistic[1],
-             pf(summary$fstatistic[1], summary$fstatistic[2], summary$fstatistic[3],
-                lower.tail = FALSE)
-           ))
-          row.names(regr_df)[nrow(regr_df)] <- name
-        }
-    }
-  }
+# stores linear regressions for each feeding interaction, location and predator lifestage in model 1
+lmfunction <- function(mydata){
+  summary(lm(Prey.mass ~ Predator.mass, data = mydata))
 }
+model1 <- dlply(mydata, as.quoted(.(Type.of.feeding.interaction, Predator.lifestage, Location)), lmfunction)
 
-write.csv(regr_df, "../results/PP_Regress_loc_Results.csv")
+# gets separate stats out of model1
+listfunction <- function(m){ 
+  slope <- m$coefficients[2]
+  intercept <- m$coefficients[1]
+  r2 <- m$r.squared
+  pvalue <- m$coefficients[8]
+  data.frame(slope, intercept, r2, pvalue)
 
+}
+output <- ldply(model1, listfunction)
+
+# f stat is weird, get out of model1 separately:
+listfunction2 <- function(m){
+  fstat <- m$fstatistic[1]
+  data.frame(fstat)
+}
+output2 <- ldply(model1, listfunction2)
+
+# merge data frames: f stat and the rest of stats
+finaloutput <- merge(output, output2)
+
+# write a csv file
+write.csv(finaloutput, "../results/PP_Regress_loc_Results.csv", row.names = FALSE) # gets rid of row names 1, 2, 3

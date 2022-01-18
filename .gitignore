@@ -9,10 +9,13 @@
 *.bcf
 *.run.xml
 *.pdf
+*.fdb_latexmk
+*.fls
 .idea/
 .Rproj.user
 */results/*
 !*/results/.gitkeep
+__pycache__/*
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
