@@ -10,7 +10,7 @@ Data required to run the coding scripts can be downloaded from the following [re
 #### Languages:
 Python 3.9.7
 
-R version 3.6.3
+R version 4.1.2
 
 RStudio 2021.09.0
 
