@@ -1,4 +1,4 @@
-#!/usr/bin/env python3i
+#!/usr/bin/env python3
 
 """This script is for aligning the two DNA sequences"""
 

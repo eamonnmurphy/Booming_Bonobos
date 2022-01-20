@@ -55,8 +55,8 @@ Code stores all the codes written for groupwork practicals. Data stores all the 
           get_TreeHeight.R: R script that calculates tree heights for all trees and saves output as new csv
           get_TreeHeight.py: Python script that calculates tree heights for all trees and saves output as new csv
           run_get_TreeHeight.sh: Bash script that runs both get_TreeHeight.R and run_get_TreeHeight.sh
-          TAutoCorr.R: calculates the correlation between pairs of years to analysis temperature trends in Florida
-          TAutoCorr_writeup.tex: latex file for compiling a report on Florida temperatures
+          TAutoCorr.R: calculates the correlation between pairs of years to analyse temperature trends in Florida
+          TAutoCorr.tex: latex file for compiling a report on Florida temperatures
           Floridabiblio.bib: stores the bibliography for the report
           PP_Regress_loc.R: calculates linear regression on subsets of the data corresponding to i) Feeding Type, ii) Predator life Stage and iii) Location
     data:

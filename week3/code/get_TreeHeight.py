@@ -51,7 +51,7 @@ def main(argv):
         if len(Inputdata.columns) >= 3 and list(Inputdata.columns).index('Distance.m') == 1 and list(Inputdata.columns).index('Angle.degrees') == 2:
             #Check if the input file has at least 3 columns with the right format
 
-            print("Correct the data format. Proceed to tree height calculation")
+            print("Correct data format and proceed to tree height calculation")
 
             data = Inputdata
 
