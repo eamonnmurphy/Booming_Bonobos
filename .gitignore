@@ -8,7 +8,6 @@
 *.synctex.gz
 *.bcf
 *.run.xml
-*.pdf
 *.fdb_latexmk
 *.fls
 .idea/
