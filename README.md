@@ -63,6 +63,8 @@ Code stores all the codes written for groupwork practicals. Data stores all the 
           EcolArchives-E089-51-D1.csv
           KeyWestAnnualMeanTemperature.RData
           trees.csv
+    writeup:
+          TAutoCorr.pdf - Compiled LaTeX document
 
 ###### Week7:
     code:
